@@ -19,7 +19,7 @@ func main() {
 		StaticDir: *static,
 	}
 
-	logger, err := zap.NewProduction()
+	logger, err := zap.NewProduction(zap.AddStacktrace(zap.FatalLevel))
 	if err != nil {
 		log.Println(err)
 		return
