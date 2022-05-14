@@ -20,10 +20,7 @@ function handleEvent(event) {
     setTimeout(() => {
         textField1.classList.remove("fadeIn", "animate__animated", "animate__bounce");
         // Wait until the animation end
-        //textField1.addEventListener('animationend', () => {
-            setTimeout(() => {eventActive = false;}, 1000 );
-
-        //});
+        setTimeout(() => {eventActive = false;}, 1000 );
 
     }, 3000);
 }
