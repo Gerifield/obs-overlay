@@ -27,15 +27,16 @@ function handleEvent(event) {
         loop: false,
     }).add({
         targets: '.textField',
-        opacity: [0,1],
-        easing: "easeInExpo",
-        duration: 300,
+        opacity: 1,
+        // easing: "easeInExpo",
+        // duration: 100,
     }).add({
         targets: '.textField .letter',
+        opacity: [0,1],
         scale: [0.3, 1],
         rotateZ: [180, 0],
-        duration: 750,
-        easing: "easeInExpo",
+        duration: 850,
+        easing: "easeOutExpo",
         delay: (el, i) => 20 * (i+1)
     }).add({
         targets: '.textField',
