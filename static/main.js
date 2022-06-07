@@ -1,27 +1,59 @@
 var socket = new WebSocket("ws://127.0.0.1:8080/websocket");
 var queue = [];
 var eventActive = false;
+
+var textField = document.querySelector(".textField");
+
 function queueProcessor() {
     if (!eventActive && queue.length > 0) {
         // We have an event, trigger it
-        handleEvent(queue.shift());
+        var evt = queue.shift();
+        console.log("process event", evt, queue.length)
+        handleEvent(evt);
     }
-    setTimeout(queueProcessor, 1000);
 }
-queueProcessor();
+
+// process the queue
+setInterval(queueProcessor, 500);
+
 function handleEvent(event) {
     eventActive = true;
-    var textField1 = document.getElementById("textField1");
-    textField1.innerHTML = event.data;
-    textField1.classList.add("fadeIn", "animate__animated", "animate__bounce");
-    setTimeout(function () {
-        textField1.classList.remove("fadeIn", "animate__animated", "animate__bounce");
-        // Wait until the animation end
-        //textField1.addEventListener('animationend', () => {
-        setTimeout(function () { eventActive = false; }, 1000);
-        //});
-    }, 3000);
+    //textField.innerHTML = event.data;
+    var new_data = event.data.replace(/./g, "<span class='letter'>$&</span>");
+    //console.log(new_data);
+    textField.innerHTML = new_data;
+
+    var animation = anime.timeline({
+        loop: false,
+    }).add({
+        targets: '.textField',
+        opacity: 1,
+        // easing: "easeInExpo",
+        // duration: 100,
+    }).add({
+        targets: '.textField .letter',
+        opacity: [0,1],
+        scale: [0.3, 1],
+        rotateZ: [180, 0],
+        duration: 850,
+        easing: "easeOutExpo",
+        delay: (el, i) => 20 * (i+1)
+    }).add({
+        targets: '.textField',
+        opacity: 0,
+        duration: 800,
+        easing: "easeOutExpo",
+        delay: 3000,
+        complete: function (anim) {
+            eventActive = false;
+            console.log("animation ended", anim)
+        }
+    })
+
+    // animation.seek(0);
+    // animation.play();
 }
 socket.onmessage = function (event) {
+    console.log("add event", event)
     queue.push(event);
 };
