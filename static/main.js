@@ -11,10 +11,10 @@ function queueProcessor() {
         console.log("process event", evt, queue.length)
         handleEvent(evt);
     }
-    setTimeout(queueProcessor, 1000);
 }
 
-queueProcessor();
+// process the queue
+setInterval(queueProcessor, 500);
 
 function handleEvent(event) {
     eventActive = true;
@@ -41,7 +41,7 @@ function handleEvent(event) {
     }).add({
         targets: '.textField',
         opacity: 0,
-        duration: 1000,
+        duration: 800,
         easing: "easeOutExpo",
         delay: 3000,
         complete: function (anim) {
